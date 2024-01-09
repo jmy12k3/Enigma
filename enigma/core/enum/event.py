@@ -4,7 +4,6 @@ from enum import Enum
 class EventType(Enum):
     ACCOUNT = "ACCOUNT"
     CONTRACT = "CONTRACT"
-    LOG = "LOG"
     ORDER = "ORDER"
     POSITION = "POSITION"
     TICK = "TICK"
