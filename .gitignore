@@ -1,4 +1,7 @@
+# Desktop Services Store
 .DS_Store
+
+# Compiled caches
 .mypy_cache
 .ruff_cache
 __pycache__
