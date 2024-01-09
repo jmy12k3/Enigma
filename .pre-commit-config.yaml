@@ -1,3 +1,7 @@
+hooks:
+  - id: poetry-export
+    args: ["--dev", "-f", "requirements.txt", "-o", "requirements.txt"]
+
 repos:
   - repo: https://github.com/psf/black
     rev: 23.12.1
