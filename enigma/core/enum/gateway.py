@@ -1,11 +1,3 @@
-"""Enumerations for gateway.
-
-Note that you are free to add your own enumeration key for enumerations
-with the "Supported" prefix in the docstrings. For example, if your
-broker supports exchanges and products that is not recorded on this
-file, you can add your own enumeration key for them.
-"""
-
 from enum import Enum
 
 
