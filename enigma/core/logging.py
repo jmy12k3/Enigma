@@ -1,4 +1,4 @@
-"""A loguru-like logging module in structlog."""
+"""A loguru-like plug-and-play module in structlog."""
 
 import logging
 import sys
