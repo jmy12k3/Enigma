@@ -1,4 +1,4 @@
-"""Twelve-Factor standard logging."""
+"""Logging in twelve-factor standard."""
 
 import logging
 import sys
