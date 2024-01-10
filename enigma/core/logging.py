@@ -24,7 +24,7 @@ def _logger(*, stream: typing.TextIO) -> typing.Any:
             ],
         )
     else:
-        # Cloud deployment - JSON
+        # Cloud deployment - structured logging
         level = logging.INFO
         processors.extend(
             [
