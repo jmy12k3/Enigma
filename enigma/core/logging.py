@@ -1,3 +1,5 @@
+"""A loguru-like logging setup for structlog."""
+
 import logging
 import sys
 from functools import cache
