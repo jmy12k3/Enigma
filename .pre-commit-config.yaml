@@ -8,7 +8,11 @@ repos:
     rev: "v1.8.0"
     hooks:
       - id: mypy
-        args: [--strict, --ignore-missing-imports]
+        args:
+          - --strict
+          - --ignore-missing-imports
+        additional_dependencies:
+          - types-tzlocal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.11

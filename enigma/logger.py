@@ -1,4 +1,4 @@
-"""A loguru-like logger that uses structlog."""
+"""Twelve-Factor standard logging."""
 
 import logging
 import sys
