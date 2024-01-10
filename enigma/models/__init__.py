@@ -9,7 +9,7 @@ from enigma.models.enums import (
     Product,
     Status,
 )
-from enigma.models.types import (
+from enigma.models.objects import (
     AccountData,
     BarData,
     CancelRequest,
