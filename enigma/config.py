@@ -1,7 +1,7 @@
 """Config in twelve-factor standard."""
 
+import dynaconf
 import tzlocal
-from dynaconf import Dynaconf
 
 CONFIG = {
     "DATABASE_NAME": "",
@@ -17,4 +17,4 @@ CONFIG = {
 
 CONFIG["DATABASE_TIMEZONE"] = tzlocal.get_localzone_name()
 
-CONFIG.update(Dynaconf(envvar_prefix=False, load_dotenv=True).to_dict())
+CONFIG.update(dynaconf.Dynaconf(envvar_prefix=False, load_dotenv=True).to_dict())
