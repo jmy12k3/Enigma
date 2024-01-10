@@ -1,15 +1,15 @@
 """Logging in twelve-factor standard."""
 
+import functools
 import logging
 import sys
-from functools import cache
-from typing import Any, TextIO
+import typing
 
 import structlog
 
 
-@cache
-def _logger(*, stream: TextIO) -> Any:
+@functools.cache
+def _logger(*, stream: typing.TextIO) -> typing.Any:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
