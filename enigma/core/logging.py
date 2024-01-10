@@ -1,13 +1,13 @@
-import functools
 import logging
 import sys
-import typing
+from functools import cache
+from typing import Any, TextIO
 
 import structlog
 
 
-@functools.cache
-def _logger(*, stream: typing.TextIO) -> typing.Any:
+@cache
+def _logger(*, stream: TextIO) -> Any:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
