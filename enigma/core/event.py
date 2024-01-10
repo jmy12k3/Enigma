@@ -1,18 +1,12 @@
+import time
 from collections import defaultdict
 from collections.abc import Callable
 from queue import Empty, Queue
 from threading import Thread
-from time import sleep
-from typing import Any
 
 from enigma.core.enum import EventType
-
-
-class Event:
-    def __init__(self, type: EventType, data: Any = None) -> None:
-        self.type = type
-        self.data = data
-
+from enigma.core.logging import logger
+from enigma.core.object import Event
 
 HandlerType = Callable[[Event], None]
 
@@ -40,7 +34,7 @@ class EventEngine:
 
     def _run_timer(self) -> None:
         while self._active:
-            sleep(self._interval)
+            time.sleep(self._interval)
             event = Event(EventType.TIMER)
             self.put(event)
 
@@ -61,12 +55,20 @@ class EventEngine:
         handler_list = self._handlers[type]
         if handler not in handler_list:
             handler_list.append(handler)
+            logger.debug(
+                "Registered event handler",
+                Event=str(type),
+                Handler=handler.__name__,
+            )
 
     def unregister(self, type: EventType, handler: HandlerType) -> None:
         handler_list = self._handlers[type]
-
         if handler in handler_list:
             handler_list.remove(handler)
-
+            logger.debug(
+                "Unregistered event handler",
+                event=str(type),
+                handler=handler.__name__,
+            )
         if not handler_list:
-            self._handlers.pop(type)
+            del self._handlers[type]
