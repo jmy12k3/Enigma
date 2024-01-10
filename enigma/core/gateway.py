@@ -66,7 +66,7 @@ class BaseGateway(ABC):
         ...
 
     @abstractmethod
-    def send_order(self, req: OrderRequest) -> str:
+    def submit_order(self, req: OrderRequest) -> str:
         ...
 
     @abstractmethod
