@@ -1,9 +1,8 @@
-"""Twelve-Factor standard configuration."""
+"""Config in twelve-factor standard."""
 
 import tzlocal
 from dynaconf import Dynaconf
 
-# If not specified, the database timezone will be set to the local timezone.
 CONFIG = {
     "DATABASE_TIMEZONE": tzlocal.get_localzone_name(),
     "DATABASE_NAME": "",
@@ -17,5 +16,4 @@ CONFIG = {
     "DATAFEED_PASSWORD": "",
 }
 
-# Load the configuration from dotenv file and environment variables.
-CONFIG.update(Dynaconf(load_dotenv=True, envvar_prefix=False).to_dict())
+CONFIG.update(Dynaconf(envvar_prefix=False, load_dotenv=True).to_dict())
