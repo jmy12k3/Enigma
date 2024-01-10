@@ -35,8 +35,7 @@ class EventEngine:
     def _run_timer(self) -> None:
         while self._active:
             time.sleep(self._interval)
-            event = Event(EventType.TIMER)
-            self.put(event)
+            self.put(Event(EventType.TIMER))
 
     def start(self) -> None:
         self._active = True
