@@ -19,7 +19,6 @@ def _logger(*, stream: TextIO) -> Any:
     processors: list[structlog.typing.Processor] = [*shared_processors]
 
     if stream.isatty():
-        # Development - pretty printing
         level = logging.DEBUG
         processors.extend(
             [
@@ -28,7 +27,6 @@ def _logger(*, stream: TextIO) -> Any:
             ],
         )
     else:
-        # Production - structured logging
         level = logging.INFO
         processors.extend(
             [
