@@ -5,7 +5,7 @@ import typing
 import structlog
 
 
-def _logger(*, level: int, stream: typing.TextIO) -> typing.Any:
+def _logger(*, stream: typing.TextIO) -> typing.Any:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
@@ -15,6 +15,8 @@ def _logger(*, level: int, stream: typing.TextIO) -> typing.Any:
     processors: list[structlog.typing.Processor] = [*shared_processors]
 
     if stream.isatty():
+        # Local development - pretty print
+        level = logging.DEBUG
         processors.extend(
             [
                 structlog.processors.TimeStamper("%Y-%m-%d %H:%M:%S", utc=False),
@@ -22,6 +24,8 @@ def _logger(*, level: int, stream: typing.TextIO) -> typing.Any:
             ],
         )
     else:
+        # Cloud deployment - JSON
+        level = logging.INFO
         processors.extend(
             [
                 structlog.processors.dict_tracebacks,
@@ -42,4 +46,4 @@ def _logger(*, level: int, stream: typing.TextIO) -> typing.Any:
     return structlog.get_logger()
 
 
-logger = _logger(level=logging.INFO, stream=sys.stdout)
+logger = _logger(stream=sys.stdout)
