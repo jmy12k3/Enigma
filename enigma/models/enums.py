@@ -10,13 +10,11 @@ class EventType(Enum):
     ACCOUNT = "ACCOUNT"
     CONTRACT = "CONTRACT"
 
-    def __str__(self) -> str:
-        return self.value
-
 
 class Direction(Enum):
     LONG = "LONG"
     SHORT = "SHORT"
+    NET = "NET"
 
 
 class Exchange(Enum):
@@ -31,7 +29,6 @@ class Interval(Enum):
 
 
 class Offset(Enum):
-    NONE = "NONE"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
 
