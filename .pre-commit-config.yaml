@@ -19,4 +19,5 @@ repos:
     rev: "1.7.0"
     hooks:
       - id: poetry-check
+      - id: poetry-lock
       - id: poetry-install
