@@ -1,7 +1,7 @@
 """Config in twelve-factor standard."""
 
-import dynaconf
-import tzlocal
+from dynaconf import Dynaconf
+from tzlocal import get_localzone_name
 
 ENVVAR_PREFIX = __package__.upper()
 
@@ -16,13 +16,8 @@ CONFIG = {
     "DATAFEED_USERNAME": "",
     "DATAFEED_PASSWORD": "",
 }
-CONFIG["DATABASE_TIMEZONE"] = tzlocal.get_localzone_name()
+CONFIG["DATABASE_TIMEZONE"] = get_localzone_name()
 
 CONFIG = {f"{ENVVAR_PREFIX}{k}": v for k, v in CONFIG.items()}
 
-CONFIG.update(
-    dynaconf.Dynaconf(
-        envvar_prefix=ENVVAR_PREFIX,
-        load_dotenv=True,
-    ).to_dict()
-)
+CONFIG.update(Dynaconf(envvar_prefix=ENVVAR_PREFIX, load_dotenv=True).to_dict())
