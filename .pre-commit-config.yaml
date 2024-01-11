@@ -3,11 +3,8 @@ repos:
     rev: "v1.8.0"
     hooks:
       - id: mypy
-        args:
-          - --strict
-          - --ignore-missing-imports
-        additional_dependencies:
-          - types-tzlocal
+        args: ["--strict", "--ignore-missing-imports"]
+        additional_dependencies: ["types-tzlocal"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.11
@@ -19,6 +16,5 @@ repos:
     rev: "1.7.0"
     hooks:
       - id: poetry-check
-        args:
-          - --lock
+        args: ["--lock"]
       - id: poetry-install
