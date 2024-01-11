@@ -1,0 +1,73 @@
+[tool.poetry]
+name = "enigma"
+version = "0.0.1"
+description = ""
+authors = ["Kaho Fan <jmy.12k3@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/jmy12k3/Enigma"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/jmy12k3/Enigma/issues"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dynaconf = "^3.2.4"
+numpy = "^1.26.3"
+structlog = "^24.1.0"
+tzlocal = "^5.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.8.0"
+ruff = "^0.1.11"
+types-tzlocal = "^5.1.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+
+[[tool.mypy.overrides]]
+module = ["dynaconf.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+select = ["ALL"]
+ignore = [
+    # Ruff linter - Opinionated lint rules
+    "A",      # flake8-builtins
+    "ANN101", # missing-type-self
+    "ANN401", # any-type
+    "D100",   # undocumented-public-module
+    "D101",   # undocumented-public-class
+    "D102",   # undocumented-public-method
+    "D103",   # undocumented-public-function
+    "D104",   # undocumented-public-package
+    "D105",   # undocumented-magic-method
+    "D106",   # undocumented-public-nested-class
+    "D107",   # undocumented-public-init
+
+    # Ruff formatter - Conflicting lint rules
+    # See https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191",   # tab-indentation
+    "E111",   # indentation-with-invalid-multiple
+    "E114",   # indentation-with-invalid-multiple-comment
+    "E117",   # over-indented
+    "D206",   # indent-with-spaces
+    "D300",   # triple-single-quotes
+    "Q000",   # bad-quotes-inline-string
+    "Q001",   # bad-quotes-multiline-string
+    "Q002",   # bad-quotes-docstring
+    "Q003",   # avoidable-escaped-route
+    "COM812", # missing-trailing-comma
+    "COM819", # prohitbited-trailing-comma
+    "ISC001", # single-line-implicit-string-concatenation
+    "ISC002", # multi-line-implicit-string-concatenation
+]
+target-version = "py311"
+
+[tool.ruff.pylint]
+max-args = 6
