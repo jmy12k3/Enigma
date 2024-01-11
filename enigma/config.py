@@ -1,10 +1,13 @@
 """Config in twelve-factor standard."""
 
-from dynaconf import Dynaconf
-from tzlocal import get_localzone_name
+import dynaconf
+import tzlocal
 
+# set envvar_prefix as package name in upper case
 ENVVAR_PREFIX = __package__.upper()
 
+# set default values for optional configs
+# note that dotenv config does not support nested structures
 CONFIG = {
     "DATABASE_NAME": "",
     "DATABASE_DATABASE": "",
@@ -16,8 +19,17 @@ CONFIG = {
     "DATAFEED_USERNAME": "",
     "DATAFEED_PASSWORD": "",
 }
-CONFIG["DATABASE_TIMEZONE"] = get_localzone_name()
 
+# set default values for mandatory config
+CONFIG["DATABASE_TIMEZONE"] = tzlocal.get_localzone_name()
+
+# append envvar_prefix to default configs
 CONFIG = {f"{ENVVAR_PREFIX}{k}": v for k, v in CONFIG.items()}
 
-CONFIG.update(Dynaconf(envvar_prefix=ENVVAR_PREFIX, load_dotenv=True).to_dict())
+# load configs from environment variables and dotenv file
+CONFIG.update(
+    dynaconf.Dynaconf(
+        envvar_prefix=ENVVAR_PREFIX,
+        load_dotenv=True,
+    ).to_dict()
+)
