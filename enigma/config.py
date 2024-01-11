@@ -14,7 +14,6 @@ CONFIG = {
     "DATAFEED_USERNAME": "",
     "DATAFEED_PASSWORD": "",
 }
-
 CONFIG["DATABASE_TIMEZONE"] = tzlocal.get_localzone_name()
 
 CONFIG.update(dynaconf.Dynaconf(envvar_prefix=False, load_dotenv=True).to_dict())
