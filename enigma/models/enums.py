@@ -17,33 +17,9 @@ class Direction(Enum):
     NET = "NET"
 
 
-class Exchange(Enum):
-    SMART = "SMART"
-    IBKRATS = "IBKRATS"
-
-
-class Interval(Enum):
-    MINUTE = "MINUTE"
-    HOUR = "HOUR"
-    DAY = "DAY"
-
-
 class Offset(Enum):
     OPEN = "OPEN"
     CLOSE = "CLOSE"
-
-
-class OptionType(Enum):
-    CALL = "CALL"
-    PUT = "PUT"
-
-
-class OrderType(Enum):
-    MARKET = "MARKET"
-    LIMIT = "LIMIT"
-    STOP_LOSS = "STOP_LOSS"
-    STOP_LIMIT = "STOP_LIMIT"
-    TRAILING_STOP = "TRAILING_STOP"
 
 
 class Status(Enum):
@@ -61,3 +37,27 @@ class Product(Enum):
     FUTURES = "FUTURES"
     OPTION = "OPTION"
     FOREX = "FOREX"
+
+
+class Exchange(Enum):
+    SMART = "SMART"
+    IBKRATS = "IBKRATS"
+
+
+class OrderType(Enum):
+    MARKET = "MARKET"
+    LIMIT = "LIMIT"
+    STOP_LOSS = "STOP_LOSS"
+    STOP_LIMIT = "STOP_LIMIT"
+    TRAILING_STOP = "TRAILING_STOP"
+
+
+class OptionType(Enum):
+    CALL = "CALL"
+    PUT = "PUT"
+
+
+class Interval(Enum):
+    MINUTE = "MINUTE"
+    HOUR = "HOUR"
+    DAY = "DAY"
