@@ -1,6 +1,5 @@
 """Logging in twelve-factor standard."""
 
-import functools
 import logging
 import sys
 import typing
@@ -8,8 +7,7 @@ import typing
 import structlog
 
 
-@functools.cache
-def _logger(*, stream: typing.TextIO) -> typing.Any:
+def _set_logger(*, stream: typing.TextIO) -> None:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
@@ -45,7 +43,7 @@ def _logger(*, stream: typing.TextIO) -> typing.Any:
 
     logging.basicConfig(format="%(message)s", level=level, stream=stream)
 
-    return structlog.get_logger()
 
+_set_logger(stream=sys.stdout)
 
-logger = _logger(stream=sys.stdout)
+logger = structlog.get_logger()
