@@ -28,7 +28,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 strict = true
-python_version = "3.11"
+python_version = "3.12"
 
 [[tool.mypy.overrides]]
 module = ["dynaconf.*"]
@@ -67,7 +67,7 @@ ignore = [
     "ISC001", # single-line-implicit-string-concatenation
     "ISC002", # multi-line-implicit-string-concatenation
 ]
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.pylint]
 max-args = 6
