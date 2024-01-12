@@ -1,14 +1,12 @@
-"""A loguru-like, twelve-factor standard logger.
-
-* Possible improvement: bind a 'build_info' contextvars to contain
-  the runtime python version and the commit hash for debug purposes.
-"""
+"""A loguru-like, twelve-factor standard logger."""
 
 import logging
 import sys
 import typing
 
 import structlog
+
+from . import __version__
 
 
 def _set_logger(*, stream: typing.TextIO) -> None:
@@ -36,6 +34,13 @@ def _set_logger(*, stream: typing.TextIO) -> None:
                 structlog.processors.TimeStamper("iso"),
                 structlog.processors.JSONRenderer(),
             ],
+        )
+
+        structlog.contextvars.bind_contextvars(
+            build_info={
+                "version": __version__,
+                "python_version": sys.version,
+            }
         )
 
     structlog.configure(
