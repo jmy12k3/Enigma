@@ -1,12 +1,12 @@
-import functools
 import os
 import re
+from functools import cache
 from typing import Any
 
 import dotenv
 
 
-@functools.cache
+@cache
 def _get_config(prefixes: str = __package__.upper()) -> dict[str, Any]:
     regex = re.compile(rf"{prefixes}\w+")
 
