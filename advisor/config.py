@@ -7,7 +7,7 @@ import dotenv
 
 
 @cache
-def _get_config(prefixes: str = __package__.upper()) -> dict[str, Any]:
+def _get_config(*, prefixes: str = __package__.upper()) -> dict[str, Any]:
     regex = re.compile(rf"{prefixes}\w+")
 
     return {
