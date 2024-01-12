@@ -1,5 +1,3 @@
-"""A loguru-like, twelve-factor standard logger."""
-
 import logging
 import sys
 from typing import TextIO
