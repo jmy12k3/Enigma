@@ -2,14 +2,14 @@
 
 import logging
 import sys
-import typing
+from typing import TextIO
 
 import structlog
 
 from . import __version__
 
 
-def _set_logger(*, stream: typing.TextIO) -> None:
+def _set_logger(*, stream: TextIO) -> None:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
