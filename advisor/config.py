@@ -8,7 +8,7 @@ import tzlocal
 
 
 @cache
-def _get_config(*, prefixes: str = __package__.upper()) -> dict[str, Any]:
+def _get_config(*, prefixes: str = f"{__package__.upper()}_") -> dict[str, Any]:
     regex = re.compile(rf"{prefixes}\w+")
 
     return {
