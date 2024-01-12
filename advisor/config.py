@@ -7,8 +7,7 @@ import dotenv
 
 
 @functools.cache
-def _get_config() -> dict[str, Any]:
-    prefixes = f"{__package__.upper()}_"
+def _get_config(prefixes: str = __package__.upper()) -> dict[str, Any]:
     regex = re.compile(rf"{prefixes}\w+")
 
     return {
