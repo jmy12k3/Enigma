@@ -6,7 +6,7 @@ from typing import TextIO
 
 import structlog
 
-from . import __version__
+from enigma import __version__
 
 
 def _set_logger(*, stream: TextIO) -> None:
