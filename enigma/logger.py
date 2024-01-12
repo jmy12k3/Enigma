@@ -1,4 +1,8 @@
-"""Logging in twelve-factor standard."""
+"""A loguru-like, twelve-factor standard logger.
+
+* Possible improvement: bind a 'build_info' contextvars to contain
+  the runtime python version and the commit hash for debug purposes.
+"""
 
 import logging
 import sys
