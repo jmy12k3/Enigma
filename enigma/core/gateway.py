@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, ClassVar
 
-from enigma.core.event import EventEngine
+from enigma.core.engine import Engine
 from enigma.models import (
     AccountData,
     BarData,
@@ -20,20 +20,20 @@ from enigma.models import (
 )
 
 
-class BaseGateway(ABC):
+class Gateway(ABC):
     default_name = ""
 
     default_setting: ClassVar[dict[str, Any]] = {}
 
     exchanges: ClassVar[list[Exchange]] = []
 
-    def __init__(self, event_engine: EventEngine, gateway_name: str) -> None:
-        self.event_engine = event_engine
+    def __init__(self, engine: Engine, gateway_name: str) -> None:
+        self.engine = engine
         self.gateway_name = gateway_name
 
     def on_event(self, type: EventType, data: Any = None) -> None:
         event = Event(type, data)
-        self.event_engine.put(event)
+        self.engine.put(event)
 
     def on_tick(self, tick: TickData) -> None:
         self.on_event(EventType.TICK, tick)
