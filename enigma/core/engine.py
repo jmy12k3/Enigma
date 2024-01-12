@@ -10,7 +10,7 @@ from enigma.models import Event, EventType
 _T = Callable[[Event], None]
 
 
-class EventEngine:
+class Engine:
     def __init__(self, interval: int = 1) -> None:
         self._interval = interval
         self._queue: Queue[Event] = Queue()
