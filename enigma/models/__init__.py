@@ -12,6 +12,7 @@ from enigma.models.enums import (
 from enigma.models.objects import (
     AccountData,
     BarData,
+    BarOverview,
     CancelRequest,
     ContractData,
     Event,
@@ -21,6 +22,7 @@ from enigma.models.objects import (
     PositionData,
     SubscribeRequest,
     TickData,
+    TickOverview,
     TradeData,
 )
 
@@ -36,6 +38,7 @@ __all__ = [
     "Status",
     "AccountData",
     "BarData",
+    "BarOverview",
     "CancelRequest",
     "ContractData",
     "Event",
@@ -45,5 +48,6 @@ __all__ = [
     "PositionData",
     "SubscribeRequest",
     "TickData",
+    "TickOverview",
     "TradeData",
 ]
