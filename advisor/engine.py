@@ -1,9 +1,9 @@
 import time
 from collections import defaultdict
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import suppress
 from queue import Empty, Queue
-from threading import Thread
 
 from advisor.models import Event, EventType
 
@@ -15,8 +15,7 @@ class Engine:
         self._interval = interval
         self._queue: Queue[Event] = Queue()
         self._active = False
-        self._thread = Thread(target=self._run)
-        self._timer = Thread(target=self._run_timer)
+        self._executor = ThreadPoolExecutor(max_workers=2)
         self._handlers: defaultdict[EventType, list[_T]] = defaultdict(list)
 
     def _run(self) -> None:
@@ -36,13 +35,12 @@ class Engine:
 
     def start(self) -> None:
         self._active = True
-        self._thread.start()
-        self._timer.start()
+        self._executor.submit(self._run)
+        self._executor.submit(self._run_timer)
 
     def stop(self) -> None:
         self._active = False
-        self._timer.join()
-        self._thread.join()
+        self._executor.shutdown(wait=True)
 
     def put(self, event: Event) -> None:
         self._queue.put(event)
