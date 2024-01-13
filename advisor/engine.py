@@ -1,9 +1,9 @@
-import time
 from collections import defaultdict
 from collections.abc import Callable
 from contextlib import suppress
 from queue import Empty, Queue
 from threading import Thread
+from time import sleep
 
 from advisor.models import Event, EventType
 
@@ -31,7 +31,7 @@ class Engine:
 
     def _run_timer(self) -> None:
         while self._active:
-            time.sleep(self._interval)
+            sleep(self._interval)
             self.put(Event(EventType.TIMER))
 
     def start(self) -> None:
