@@ -23,7 +23,7 @@ def _set_logger(*, stream: TextIO) -> None:
             ],
         )
     else:
-        level = logging.WARNING
+        level = logging.ERROR
         processors.extend(
             [
                 structlog.processors.TimeStamper("iso"),
