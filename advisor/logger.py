@@ -4,8 +4,6 @@ from typing import TextIO
 
 import structlog
 
-from advisor import __version__
-
 
 def _set_logger(*, stream: TextIO) -> None:
     shared_processors: list[structlog.typing.Processor] = [
@@ -28,22 +26,22 @@ def _set_logger(*, stream: TextIO) -> None:
         level = logging.INFO
         processors.extend(
             [
-                structlog.processors.dict_tracebacks,
                 structlog.processors.TimeStamper("iso"),
+                structlog.processors.dict_tracebacks,
+                structlog.processors.CallsiteParameterAdder(
+                    {
+                        structlog.processors.CallsiteParameter.FILENAME,
+                        structlog.processors.CallsiteParameter.FUNC_NAME,
+                        structlog.processors.CallsiteParameter.LINENO,
+                    }
+                ),
                 structlog.processors.JSONRenderer(),
             ],
         )
 
-        structlog.contextvars.bind_contextvars(
-            build_info={
-                "version": __version__,
-                "python_version": sys.version,
-            }
-        )
-
     structlog.configure(
-        processors,
-        structlog.stdlib.BoundLogger,
+        processors=processors,
+        wrapper_class=structlog.stdlib.BoundLogger,
         logger_factory=structlog.stdlib.LoggerFactory(),
         cache_logger_on_first_use=True,
     )
