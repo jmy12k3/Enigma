@@ -3,8 +3,8 @@ import re
 from functools import cache
 from typing import Any
 
-import dotenv
-import tzlocal
+from dotenv import dotenv_values
+from tzlocal import get_localzone_name
 
 
 @cache
@@ -14,8 +14,8 @@ def _get_config(*, prefixes: str = f"{__package__.upper()}_") -> dict[str, Any]:
     return {
         k.replace(prefixes, "").upper(): v
         for k, v in {
-            "DATABASE_TIMEZONE": tzlocal.get_localzone_name(),
-            **dotenv.dotenv_values(".env"),
+            "DATABASE_TIMEZONE": get_localzone_name(),
+            **dotenv_values(".env"),
             **{k: v for k, v in os.environ.items() if regex.match(k)},
         }.items()
     }
