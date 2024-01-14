@@ -82,7 +82,7 @@ class PositionHolding:
     def convert_order_request(self, req: OrderRequest) -> list[OrderRequest]:
         if req.direction == Direction.LONG:
             pos_available = self.short_pos - self.short_pos_frozen
-        else:
+        elif req.direction == Direction.SHORT:
             pos_available = self.long_pos - self.long_pos_frozen
 
         reqs: list[OrderRequest] = []
