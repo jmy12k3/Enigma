@@ -72,6 +72,7 @@ class PositionHolding:
             if order.direction == Direction.LONG:
                 if order.offset == Offset.CLOSE:
                     self.short_pos_frozen += frozen
+
             # preserve original if-elif structure
             elif order.direction == Direction.SHORT:  # noqa: SIM102
                 if order.offset == Offset.CLOSE:
