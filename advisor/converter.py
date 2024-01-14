@@ -151,8 +151,10 @@ class OffsetConverter:
         holding = self.holdings.get(vt_symbol, None)
         if not holding:
             contract = self.get_contract(vt_symbol)
+
             # ignore repetitive type-checking done in is_convert_required
             holding = PositionHolding(contract)  # type: ignore[arg-type]
+
             self.holdings[vt_symbol] = holding
         return holding
 
