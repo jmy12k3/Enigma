@@ -47,17 +47,15 @@ class PositionHolding:
 
     def update_trade(self, trade: TradeData) -> None:
         if trade.direction == Direction.LONG:
-            match trade.offset:
-                case Offset.OPEN:
-                    self.long_pos += trade.volume
-                case Offset.CLOSE:
-                    self.short_pos -= trade.volume
-        else:
-            match trade.offset:
-                case Offset.OPEN:
-                    self.short_pos += trade.volume
-                case Offset.CLOSE:
-                    self.long_pos -= trade.volume
+            if trade.offset == Offset.OPEN:
+                self.long_pos += trade.volume
+            elif trade.offset == Offset.CLOSE:
+                self.short_pos -= trade.volume
+        elif trade.direction == Direction.SHORT:
+            if trade.offset == Offset.OPEN:
+                self.short_pos += trade.volume
+            elif trade.offset == Offset.CLOSE:
+                self.long_pos -= trade.volume
 
         self.sum_pos_frozen()
 
@@ -68,14 +66,12 @@ class PositionHolding:
         for order in self.active_orders.values():
             if order.offset == Offset.OPEN:
                 continue
-
             if order.offset == Offset.CLOSE:
                 frozen = order.volume - order.traded  # type: ignore[operator]
-                match order.direction:
-                    case Direction.LONG:
-                        self.short_pos_frozen += frozen
-                    case Direction.SHORT:
-                        self.long_pos_frozen += frozen
+                if order.direction == Direction.LONG:
+                    self.short_pos_frozen += frozen
+                elif order.direction == Direction.SHORT:
+                    self.long_pos_frozen += frozen
 
         self.sum_pos_frozen()
 
