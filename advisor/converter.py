@@ -51,11 +51,10 @@ class PositionHolding:
                 self.long_pos += trade.volume
             elif trade.offset == Offset.CLOSE:
                 self.short_pos -= trade.volume
-        elif trade.direction == Direction.SHORT:
-            if trade.offset == Offset.OPEN:
-                self.short_pos += trade.volume
-            elif trade.offset == Offset.CLOSE:
-                self.long_pos -= trade.volume
+        elif trade.offset == Offset.OPEN:
+            self.short_pos += trade.volume
+        elif trade.offset == Offset.CLOSE:
+            self.long_pos -= trade.volume
 
         self.sum_pos_frozen()
 
@@ -66,11 +65,16 @@ class PositionHolding:
         for order in self.active_orders.values():
             if order.offset == Offset.OPEN:
                 continue
-            if order.offset == Offset.CLOSE:
-                frozen = order.volume - order.traded  # type: ignore[operator]
-                if order.direction == Direction.LONG:
+
+            # ignore type-checking to potential uninitialized orders
+            frozen = order.volume - order.traded  # type: ignore[operator]
+
+            if order.direction == Direction.LONG:
+                if order.offset == Offset.CLOSE:
                     self.short_pos_frozen += frozen
-                elif order.direction == Direction.SHORT:
+            # preserve original if-elif structure
+            elif order.direction == Direction.SHORT:  # noqa: SIM102
+                if order.offset == Offset.CLOSE:
                     self.long_pos_frozen += frozen
 
         self.sum_pos_frozen()
@@ -82,7 +86,7 @@ class PositionHolding:
     def convert_order_request(self, req: OrderRequest) -> list[OrderRequest]:
         if req.direction == Direction.LONG:
             pos_available = self.short_pos - self.short_pos_frozen
-        elif req.direction == Direction.SHORT:
+        else:
             pos_available = self.long_pos - self.long_pos_frozen
 
         reqs: list[OrderRequest] = []
@@ -146,6 +150,7 @@ class OffsetConverter:
         holding = self.holdings.get(vt_symbol, None)
         if not holding:
             contract = self.get_contract(vt_symbol)
+            # ignore repetitive type-checking done in is_convert_required
             holding = PositionHolding(contract)  # type: ignore[arg-type]
             self.holdings[vt_symbol] = holding
         return holding
