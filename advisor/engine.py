@@ -29,6 +29,12 @@ class Engine:
         # Dictionary to store event handlers for each event type
         self._handlers: defaultdict[EventType, list[HandlerType]] = defaultdict(list)
 
+    def _process(self, event: Event) -> None:
+        """Process an event."""
+        if event.type in self._handlers:
+            for handler in self._handlers[event.type]:
+                handler(event)
+
     def _run_engine(self) -> None:
         """Run the engine."""
         while self._active:
@@ -40,12 +46,6 @@ class Engine:
         while self._active:
             time.sleep(1)
             self.put(Event(EventType.CLOCK))
-
-    def _process(self, event: Event) -> None:
-        """Process an event."""
-        if event.type in self._handlers:
-            for handler in self._handlers[event.type]:
-                handler(event)
 
     def put(self, event: Event) -> None:
         """Put an event to the queue."""
