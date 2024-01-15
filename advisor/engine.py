@@ -35,17 +35,21 @@ class Engine:
             with suppress(Empty):
                 self._process(self._queue.get(block=True, timeout=1))
 
+    def _run_clock(self) -> None:
+        """Run the clock."""
+        while self._active:
+            time.sleep(1)
+            self.put(Event(EventType.CLOCK))
+
     def _process(self, event: Event) -> None:
         """Process an event."""
         if event.type in self._handlers:
             for handler in self._handlers[event.type]:
                 handler(event)
 
-    def _run_clock(self) -> None:
-        """Run the clock."""
-        while self._active:
-            time.sleep(1)
-            self.put(Event(EventType.CLOCK))
+    def put(self, event: Event) -> None:
+        """Put an event to the queue."""
+        self._queue.put(event)
 
     def start(self) -> None:
         """Start the engine and the clock."""
@@ -58,10 +62,6 @@ class Engine:
         self._active = False
         self._clock.join()
         self._engine.join()
-
-    def put(self, event: Event) -> None:
-        """Put an event to the queue."""
-        self._queue.put(event)
 
     def register(self, type: EventType, handler: HandlerType) -> None:
         """Register a handler for a specfic event type."""
