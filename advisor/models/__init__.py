@@ -9,6 +9,7 @@ from advisor.models.enums import (
     Product,
     Status,
 )
+from advisor.models.errors import PackageImportError
 from advisor.models.objects import (
     AccountData,
     BarData,
@@ -36,6 +37,7 @@ __all__ = [
     "OrderType",
     "Product",
     "Status",
+    "PackageImportError",
     "AccountData",
     "BarData",
     "BarOverview",
