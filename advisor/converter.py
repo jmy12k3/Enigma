@@ -65,15 +65,10 @@ class PositionHolding:
         for order in self.active_orders.values():
             if order.offset == Offset.OPEN:
                 continue
-
-            # ignore type-checking to potential uninitialized orders
             frozen = order.volume - order.traded  # type: ignore[operator]
-
             if order.direction == Direction.LONG:
                 if order.offset == Offset.CLOSE:
                     self.short_pos_frozen += frozen
-
-            # preserve original if-elif structure
             elif order.direction == Direction.SHORT:  # noqa: SIM102
                 if order.offset == Offset.CLOSE:
                     self.long_pos_frozen += frozen
@@ -151,10 +146,7 @@ class OffsetConverter:
         holding = self.holdings.get(vt_symbol, None)
         if not holding:
             contract = self.get_contract(vt_symbol)
-
-            # ignore repetitive type-checking done in is_convert_required
             holding = PositionHolding(contract)  # type: ignore[arg-type]
-
             self.holdings[vt_symbol] = holding
         return holding
 
