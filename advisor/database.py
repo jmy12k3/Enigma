@@ -8,14 +8,11 @@ from advisor.models import (
     BarOverview,
     Exchange,
     Interval,
+    PackageImportError,
     TickData,
     TickOverview,
 )
 from advisor.packages import import_package
-
-
-class DatabaseError(Exception):
-    """Provide a base exception for database-related errors."""
 
 
 class Database(ABC):
@@ -86,7 +83,7 @@ class DatabaseSingletonMeta(type):
                     "Initialized database",
                     database_name=database_name,
                 )
-            except DatabaseError:
+            except PackageImportError:
                 cls._database = None
 
                 logger.error(
