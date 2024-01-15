@@ -14,11 +14,11 @@ class Engine:
     """The underlying event-driven engine of the whole framework."""
 
     def __init__(self) -> None:
-        # Queue to store events
-        self._queue: Queue[Event] = Queue()
-
         # Flag to indicate whether the engine is active
         self._active = False
+
+        # Queue to store events
+        self._queue: Queue[Event] = Queue()
 
         # Thread to run the engine
         self._engine = Thread(target=self._run_engine)
