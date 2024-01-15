@@ -15,10 +15,12 @@ from advisor.packages import import_package
 
 
 class DatabasePackageError(Exception):
-    """Provide a exception for errors related to the database package."""
+    """Provide an exception for the database package."""
 
 
 class Database(ABC):
+    """Provide an abstract base class for the database package."""
+
     @abstractmethod
     def save_bar_data(self, bars: list[BarData], *, stream: bool = False) -> bool:
         ...
@@ -71,6 +73,8 @@ class Database(ABC):
 
 
 class DatabaseSingletonMeta(type):
+    """Provide a metaclass for the function-like database singleton."""
+
     _database: Database | None = None
 
     def __call__(cls) -> Database | None:

@@ -7,7 +7,7 @@ from advisor.packages import import_package
 
 
 class DatafeedPackageError(Exception):
-    """Provide a base exception for errors related to the datafeed package."""
+    """Provide an exception for the datafeed package."""
 
 
 class Datafeed(ABC):
