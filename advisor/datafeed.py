@@ -7,10 +7,12 @@ from advisor.packages import import_package
 
 
 class DatafeedPackageError(Exception):
-    """Provide a exception for errors related to the datafeed package."""
+    """Provide a base exception for errors related to the datafeed package."""
 
 
 class Datafeed(ABC):
+    """Provide an abstract base class for the datafeed package."""
+
     @abstractmethod
     def query_bar_history(self, req: HistoryRequest) -> list[BarData] | None:
         ...
@@ -21,6 +23,8 @@ class Datafeed(ABC):
 
 
 class DatafeedSingletonMeta(type):
+    """Provide a metaclass for the function-like datafeed singleton."""
+
     _datafeed: Datafeed | None = None
 
     def __call__(cls) -> Datafeed | None:
