@@ -5,8 +5,6 @@ from typing import Any, TextIO
 
 import structlog
 
-from advisor import __version__
-
 
 @cache
 def _get_logger(*, stream: TextIO) -> Any:
@@ -22,6 +20,7 @@ def _get_logger(*, stream: TextIO) -> Any:
         level = logging.DEBUG
         processors.extend(
             [
+                structlog.dev.set_exc_info,
                 structlog.processors.TimeStamper("%Y-%m-%d %H:%M:%S", utc=False),
                 structlog.dev.ConsoleRenderer(),
             ],
@@ -30,24 +29,10 @@ def _get_logger(*, stream: TextIO) -> Any:
         level = logging.INFO
         processors.extend(
             [
-                structlog.processors.TimeStamper("iso"),
-                structlog.processors.CallsiteParameterAdder(
-                    {
-                        structlog.processors.CallsiteParameter.FILENAME,
-                        structlog.processors.CallsiteParameter.FUNC_NAME,
-                        structlog.processors.CallsiteParameter.LINENO,
-                    }
-                ),
                 structlog.processors.dict_tracebacks,
+                structlog.processors.TimeStamper("iso"),
                 structlog.processors.JSONRenderer(),
             ],
-        )
-
-        structlog.contextvars.bind_contextvars(
-            build_info={
-                "version": __version__,
-                "python_version": sys.version,
-            }
         )
 
     structlog.configure(
