@@ -65,12 +65,11 @@ class PositionHolding:
         for order in self.active_orders.values():
             if order.offset == Offset.OPEN:
                 continue
-            frozen = order.volume - order.traded  # type: ignore[operator]
-            if order.direction == Direction.LONG:
-                if order.offset == Offset.CLOSE:
+            if order.offset == Offset.CLOSE:
+                frozen = order.volume - order.traded  # type: ignore[operator]
+                if order.direction == Direction.LONG:
                     self.short_pos_frozen += frozen
-            elif order.direction == Direction.SHORT:  # noqa: SIM102
-                if order.offset == Offset.CLOSE:
+                elif order.direction == Direction.SHORT:
                     self.long_pos_frozen += frozen
 
         self.sum_pos_frozen()
