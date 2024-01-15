@@ -33,8 +33,7 @@ class Engine:
     def _process(self, event: Event) -> None:
         """Process an event."""
         if event.type in self._handlers:
-            for handler in self._handlers[event.type]:
-                handler(event)
+            [handler(event) for handler in self._handlers[event.type]]
 
     def _run_engine(self) -> None:
         """Run the engine."""
