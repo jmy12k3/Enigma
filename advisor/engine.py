@@ -5,6 +5,7 @@ from collections.abc import Callable
 from contextlib import suppress
 from threading import Thread
 
+from advisor.logger import logger
 from advisor.models import Event, EventType
 
 HandlerType = Callable[[Event], None]
@@ -68,11 +69,33 @@ class Engine:
         handler_list = self._handlers[type]
         if handler not in handler_list:
             handler_list.append(handler)
+            logger.debug(
+                "Registered event handler.",
+                event_type=type.value,
+                event_handler=handler.__name__,
+            )
+        else:
+            logger.warning(
+                "Attempted to register an already registered event handler.",
+                event_type=type.value,
+                event_handler=handler.__name__,
+            )
 
     def unregister(self, type: EventType, handler: HandlerType) -> None:
         """Unregister a handler for a specific event type."""
         handler_list = self._handlers[type]
         if handler in handler_list:
             handler_list.remove(handler)
-        if not handler_list:
-            del self._handlers[type]
+            if not handler_list:
+                self._handlers.pop(type)
+            logger.debug(
+                "Unregistered event handler.",
+                event_type=type.value,
+                event_handler=handler.__name__,
+            )
+        else:
+            logger.warning(
+                "Attempted to unregister a non-registered event handler.",
+                event_type=type.value,
+                event_handler=handler.__name__,
+            )
