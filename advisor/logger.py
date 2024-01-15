@@ -20,7 +20,6 @@ def _get_logger(*, stream: TextIO) -> Any:
         level = logging.DEBUG
         processors.extend(
             [
-                structlog.dev.set_exc_info,
                 structlog.processors.TimeStamper("%Y-%m-%d %H:%M:%S", utc=False),
                 structlog.dev.ConsoleRenderer(),
             ],
