@@ -1,11 +1,15 @@
 import logging
 import sys
-from typing import TextIO
+from functools import cache
+from typing import Any, TextIO
 
 import structlog
 
+from advisor import __version__
 
-def _set_logger(*, stream: TextIO) -> None:
+
+@cache
+def _get_logger(*, stream: TextIO) -> Any:
     shared_processors: list[structlog.typing.Processor] = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
@@ -23,11 +27,10 @@ def _set_logger(*, stream: TextIO) -> None:
             ],
         )
     else:
-        level = logging.WARNING
+        level = logging.INFO
         processors.extend(
             [
                 structlog.processors.TimeStamper("iso"),
-                structlog.processors.dict_tracebacks,
                 structlog.processors.CallsiteParameterAdder(
                     {
                         structlog.processors.CallsiteParameter.FILENAME,
@@ -35,8 +38,16 @@ def _set_logger(*, stream: TextIO) -> None:
                         structlog.processors.CallsiteParameter.LINENO,
                     }
                 ),
+                structlog.processors.dict_tracebacks,
                 structlog.processors.JSONRenderer(),
             ],
+        )
+
+        structlog.contextvars.bind_contextvars(
+            build_info={
+                "version": __version__,
+                "python_version": sys.version,
+            }
         )
 
     structlog.configure(
@@ -48,7 +59,7 @@ def _set_logger(*, stream: TextIO) -> None:
 
     logging.basicConfig(format="%(message)s", level=level, stream=stream)
 
+    return structlog.get_logger()
 
-_set_logger(stream=sys.stdout)
 
-logger = structlog.get_logger()
+logger = _get_logger(stream=sys.stdout)
