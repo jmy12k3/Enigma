@@ -7,7 +7,7 @@ from threading import Thread
 
 from advisor.models import Event, EventType
 
-_T = Callable[[Event], None]
+HandlerType = Callable[[Event], None]
 
 
 class Engine:
@@ -27,7 +27,7 @@ class Engine:
         self._clock = Thread(target=self._run_clock)
 
         # Dictionary to store event handlers for each event type
-        self._handlers: defaultdict[EventType, list[_T]] = defaultdict(list)
+        self._handlers: defaultdict[EventType, list[HandlerType]] = defaultdict(list)
 
     def _run(self) -> None:
         """Run the engine. This method is intended to be called in a separate thread."""
@@ -77,7 +77,7 @@ class Engine:
         """
         self._queue.put(event)
 
-    def register(self, type: EventType, handler: _T) -> None:
+    def register(self, type: EventType, handler: HandlerType) -> None:
         """Register a handler for a specfic event type.
 
         Parameters
@@ -91,7 +91,7 @@ class Engine:
         if handler not in handler_list:
             handler_list.append(handler)
 
-    def unregister(self, type: EventType, handler: _T) -> None:
+    def unregister(self, type: EventType, handler: HandlerType) -> None:
         """Unregister a handler for a specific event type.
 
         Parameters
