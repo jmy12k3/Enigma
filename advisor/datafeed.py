@@ -2,8 +2,12 @@ from abc import ABC, abstractmethod
 
 from advisor.config import CONFIG
 from advisor.logger import logger
-from advisor.models import BarData, HistoryRequest, PackageImportError, TickData
+from advisor.models import BarData, HistoryRequest, TickData
 from advisor.packages import import_package
+
+
+class DatafeedPackageError(Exception):
+    """Provide a exception for errors related to the datafeed package."""
 
 
 class Datafeed(ABC):
@@ -29,7 +33,7 @@ class DatafeedSingletonMeta(type):
                 cls._datafeed = package.Datafeed()
 
                 logger.info("Initialized datafeed", datafeed_name=datafeed_name)
-            except PackageImportError:
+            except DatafeedPackageError:
                 cls._datafeed = None
 
                 logger.error(
