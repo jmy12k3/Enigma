@@ -1,8 +1,8 @@
+import queue
 import time
 from collections import defaultdict
 from collections.abc import Callable
 from contextlib import suppress
-from queue import Empty, Queue
 from threading import Thread
 
 from advisor.models import Event, EventType
@@ -18,7 +18,7 @@ class Engine:
         self._active = False
 
         # Queue to store events
-        self._queue: Queue[Event] = Queue()
+        self._queue: queue.Queue[Event] = queue.Queue()
 
         # Thread to run the engine
         self._engine = Thread(target=self._run_engine)
@@ -38,7 +38,7 @@ class Engine:
     def _run_engine(self) -> None:
         """Run the engine."""
         while self._active:
-            with suppress(Empty):
+            with suppress(queue.Empty):
                 self._process(self._queue.get(block=True, timeout=1))
 
     def _run_clock(self) -> None:
