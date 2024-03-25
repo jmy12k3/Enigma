@@ -22,12 +22,12 @@ class Database(ABC):
     """Provide an abstract base class for the database package."""
 
     @abstractmethod
-    def save_bar_data(self, bars: list[BarData], *, stream: bool = False) -> bool:
-        ...
+    def save_bar_data(self, bars: list[BarData], *, stream: bool = False) -> bool: ...
 
     @abstractmethod
-    def save_tick_data(self, ticks: list[TickData], *, stream: bool = False) -> bool:
-        ...
+    def save_tick_data(
+        self, ticks: list[TickData], *, stream: bool = False
+    ) -> bool: ...
 
     @abstractmethod
     def load_bar_data(
@@ -37,8 +37,7 @@ class Database(ABC):
         interval: Interval,
         start: datetime,
         end: datetime,
-    ) -> list[BarData]:
-        ...
+    ) -> list[BarData]: ...
 
     @abstractmethod
     def load_tick_data(
@@ -47,8 +46,7 @@ class Database(ABC):
         exchange: Exchange,
         start: datetime,
         end: datetime,
-    ) -> list[TickData]:
-        ...
+    ) -> list[TickData]: ...
 
     @abstractmethod
     def delete_bar_data(
@@ -56,20 +54,16 @@ class Database(ABC):
         symbol: str,
         exchange: Exchange,
         interval: Interval,
-    ) -> int:
-        ...
+    ) -> int: ...
 
     @abstractmethod
-    def delete_tick_data(self, symbol: str, exchange: Exchange) -> int:
-        ...
+    def delete_tick_data(self, symbol: str, exchange: Exchange) -> int: ...
 
     @abstractmethod
-    def get_bar_overview(self) -> list[BarOverview]:
-        ...
+    def get_bar_overview(self) -> list[BarOverview]: ...
 
     @abstractmethod
-    def get_tick_overview(self) -> list[TickOverview]:
-        ...
+    def get_tick_overview(self) -> list[TickOverview]: ...
 
 
 class DatabaseSingletonMeta(type):
