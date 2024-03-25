@@ -10,12 +10,10 @@ class Datafeed(ABC):
     """Provide an abstract base class for the datafeed package."""
 
     @abstractmethod
-    def query_bar_history(self, req: HistoryRequest) -> list[BarData] | None:
-        ...
+    def query_bar_history(self, req: HistoryRequest) -> list[BarData] | None: ...
 
     @abstractmethod
-    def query_tick_history(self, req: HistoryRequest) -> list[TickData] | None:
-        ...
+    def query_tick_history(self, req: HistoryRequest) -> list[TickData] | None: ...
 
 
 class DatafeedSingletonMeta(type):
